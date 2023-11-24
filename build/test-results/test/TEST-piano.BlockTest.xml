@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="piano.BlockTest" tests="3" skipped="0" failures="0" errors="0" timestamp="2020-05-29T11:57:15" hostname="DESKTOP-F7RLK9I" time="0.0">
+  <properties/>
+  <testcase name="blockCreation" classname="piano.BlockTest" time="0.0"/>
+  <testcase name="blockStateActivateAndDeactivate" classname="piano.BlockTest" time="0.0"/>
+  <testcase name="blockStateToggle" classname="piano.BlockTest" time="0.0"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

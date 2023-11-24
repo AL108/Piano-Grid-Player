@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="piano.ClearTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2020-05-29T11:57:15" hostname="DESKTOP-F7RLK9I" time="0.112">
+  <properties/>
+  <testcase name="clearTest1" classname="piano.ClearTest" time="0.056"/>
+  <testcase name="clearTest2" classname="piano.ClearTest" time="0.056"/>
+  <system-out><![CDATA[java.io.FileWriter@48b039bc
+java.io.FileWriter@f9ef8ce
+java.io.FileWriter@5aa3a31e
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

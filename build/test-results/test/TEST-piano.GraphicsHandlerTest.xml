@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="piano.GraphicsHandlerTest" tests="3" skipped="0" failures="0" errors="0" timestamp="2020-05-29T11:57:16" hostname="DESKTOP-F7RLK9I" time="0.161">
+  <properties/>
+  <testcase name="handleInteractiveActionsTest" classname="piano.GraphicsHandlerTest" time="0.054"/>
+  <testcase name="clickedOnGraphic" classname="piano.GraphicsHandlerTest" time="0.044"/>
+  <testcase name="GraphicsHandlerInitialise" classname="piano.GraphicsHandlerTest" time="0.063"/>
+  <system-out><![CDATA[java.io.FileWriter@76eac021
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

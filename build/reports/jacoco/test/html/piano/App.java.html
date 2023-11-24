@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>App.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Forte</a> &gt; <a href="index.source.html" class="el_package">piano</a> &gt; <span class="el_source">App.java</span></div><h1>App.java</h1><pre class="source lang-java linenums">package piano;
+import processing.core.PApplet;
+import processing.core.PImage;
+import java.util.function.Consumer;
+import java.util.function.Supplier;
+import java.util.ArrayList;
+import java.util.List;
+
+public class App extends PApplet {
+    private GraphicsHandler graphicsHandler;
+    private SoundPlayer soundPlayer;
+    private boolean playing;
+
+<span class="fc" id="L14">    public App() {</span>
+<span class="fc" id="L15">        this.soundPlayer = new SoundPlayer(this);</span>
+<span class="fc" id="L16">        this.graphicsHandler = new GraphicsHandler(this);</span>
+<span class="fc" id="L17">    }</span>
+
+    /** 
+    *Sets the play-state of the App object to the boolean value of the parameter.
+    */
+<span class="fc" id="L22">    public Consumer&lt;Boolean&gt; setPlaying = (x) -&gt; this.playing = x;</span>
+
+    /** 
+    *Returns true if the play-state of the App object is true, otherwise false.
+    */
+<span class="fc" id="L27">    public Supplier&lt;Boolean&gt; isPlaying = () -&gt; this.playing;</span>
+
+    /** 
+    *Returns the App object's SoundPlayer object.
+    */
+<span class="fc" id="L32">    public Supplier&lt;SoundPlayer&gt; getSoundPlayer = () -&gt; this.soundPlayer;</span>
+
+    /** 
+    *Returns the App object's GraphicsHandler object.
+    */
+<span class="fc" id="L37">    public Supplier&lt;GraphicsHandler&gt; getGraphicsHandler = () -&gt; this.graphicsHandler;</span>
+
+<span class="fc" id="L39">    public void settings() {size(540, 335);}</span>
+
+    public void setup() {
+<span class="fc" id="L42">        frameRate(60);</span>
+<span class="fc" id="L43">        List&lt;PImage&gt; instrumentIndicatorImages = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L44">        instrumentIndicatorImages.add(this.loadImage(&quot;/src/main/resources/P.png&quot;));</span>
+<span class="fc" id="L45">        instrumentIndicatorImages.add(this.loadImage(&quot;/src/main/resources/M.png&quot;));</span>
+<span class="fc" id="L46">        instrumentIndicatorImages.add(this.loadImage(&quot;/src/main/resources/B.png&quot;));</span>
+<span class="fc" id="L47">        instrumentIndicatorImages.add(this.loadImage(&quot;/src/main/resources/S.png&quot;));</span>
+<span class="fc" id="L48">        graphicsHandler.setGrid(new Grid(this.loadImage(&quot;/src/main/resources/grid.png&quot;), this.loadImage(&quot;/src/main/resources/block.png&quot;), 60, 75));</span>
+<span class="fc" id="L49">        graphicsHandler.addGraphic(new Graphic(0, 0, this.loadImage(&quot;/src/main/resources/middleBanner.png&quot;)));</span>
+<span class="fc" id="L50">        graphicsHandler.addGraphic(new Graphic(0, 0, this.loadImage(&quot;/src/main/resources/banner.png&quot;)));</span>
+<span class="fc" id="L51">        graphicsHandler.addGraphic(new Graphic(0, 75, this.loadImage(&quot;/src/main/resources/keyboard.png&quot;)));</span>
+<span class="fc" id="L52">        graphicsHandler.addGraphic(new Graphic(5, 5, this.loadImage(&quot;/src/main/resources/buttonBack.png&quot;)));</span>
+<span class="fc" id="L53">        graphicsHandler.addGraphic(new Graphic(50, 5, this.loadImage(&quot;/src/main/resources/buttonBack.png&quot;)));</span>
+<span class="fc" id="L54">        graphicsHandler.addGraphic(new Graphic(95, 5, this.loadImage(&quot;/src/main/resources/buttonBack.png&quot;)));</span>
+<span class="fc" id="L55">        graphicsHandler.addGraphic(new Graphic(140, 5, this.loadImage(&quot;/src/main/resources/buttonBack.png&quot;)));</span>
+<span class="fc" id="L56">        graphicsHandler.addGraphic(new Graphic(185, 5, this.loadImage(&quot;/src/main/resources/buttonBack.png&quot;)));</span>
+<span class="fc" id="L57">        graphicsHandler.addGraphic(new Graphic(275, 5, this.loadImage(&quot;/src/main/resources/buttonBack.png&quot;)));</span>
+<span class="fc" id="L58">        graphicsHandler.addGraphic(new Graphic(320, 5, this.loadImage(&quot;/src/main/resources/buttonBack.png&quot;)));</span>
+<span class="fc" id="L59">        graphicsHandler.addGraphic(new Graphic(365, 5, this.loadImage(&quot;/src/main/resources/buttonBack.png&quot;)));</span>
+<span class="fc" id="L60">        graphicsHandler.addGraphic(new UndoBtn(450, 5, this.loadImage(&quot;/src/main/resources/undo.png&quot;),40,40));</span>
+<span class="fc" id="L61">        graphicsHandler.addGraphic(new RedoBtn(495, 5, this.loadImage(&quot;/src/main/resources/redo.png&quot;),40,40));</span>
+<span class="fc" id="L62">        graphicsHandler.addGraphic(new StopBtn(50,5,40,40,this.loadImage(&quot;/src/main/resources/stop.png&quot;)));</span>
+<span class="fc" id="L63">        graphicsHandler.addGraphic(new ClearBtn(95,5,40,40,this.loadImage(&quot;/src/main/resources/reset.png&quot;)));</span>
+<span class="fc" id="L64">        graphicsHandler.addGraphic(new InstrumentIndicator(320, 5, instrumentIndicatorImages));</span>
+<span class="fc" id="L65">        graphicsHandler.addGraphic(new NextBtn(365,5,40,40,this.loadImage(&quot;/src/main/resources/next.png&quot;)));</span>
+<span class="fc" id="L66">        graphicsHandler.addGraphic(new PrevBtn(275,5,40,40,this.loadImage(&quot;/src/main/resources/prev.png&quot;)));</span>
+<span class="fc" id="L67">        graphicsHandler.addGraphic(new PlayPauseBtn(5, 5, 40, 40, this.loadImage(&quot;/src/main/resources/play.png&quot;),this.loadImage(&quot;/src/main/resources/pause.png&quot;)));</span>
+<span class="fc" id="L68">        graphicsHandler.addGraphic(new SaveBtn(140, 5, 40, 40, this.loadImage(&quot;/src/main/resources/save.png&quot;)));</span>
+<span class="fc" id="L69">        graphicsHandler.addGraphic(new LoadBtn(185, 5, 40, 40, this.loadImage(&quot;/src/main/resources/load.png&quot;)));</span>
+<span class="fc" id="L70">        graphicsHandler.addGraphic(new Pointer(11, 60, this.loadImage(&quot;/src/main/resources/pointer.png&quot;)));</span>
+<span class="fc" id="L71">    }</span>
+<span class="fc" id="L72">    public void draw() {graphicsHandler.renderGraphics();}</span>
+
+<span class="nc" id="L74">    public void mousePressed() {graphicsHandler.handleInteractiveActions();}</span>
+    
+<span class="nc" id="L76">    public static void main(String[] args) {PApplet.main(&quot;piano.App&quot;);}</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

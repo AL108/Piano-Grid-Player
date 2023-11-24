@@ -1,0 +1,320 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Grid.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Forte</a> &gt; <a href="index.source.html" class="el_package">piano</a> &gt; <span class="el_source">Grid.java</span></div><h1>Grid.java</h1><pre class="source lang-java linenums">package piano;
+import java.util.Scanner;
+import processing.core.*;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
+
+public class Grid extends Graphic {
+    private int curUndoRedoIndex;
+    private FileWriter undoRedoRecorder;
+<span class="fc" id="L12">    private String undoRedoSaveFileName = &quot;src/UndoRedoSaveData.txt&quot;;</span>
+    private Block[][] blocks;
+
+    public Grid(PImage gridImage, PImage blockImage, int x, int y) {
+<span class="fc" id="L16">        super(x, y, gridImage);</span>
+<span class="fc" id="L17">        this.height = 260;</span>
+<span class="fc" id="L18">        this.width = 480;</span>
+        try {
+<span class="fc" id="L20">            this.undoRedoRecorder = new FileWriter(new File(undoRedoSaveFileName));</span>
+<span class="nc" id="L21">        } catch (IOException e) {</span>
+<span class="fc" id="L22">        };</span>
+<span class="fc" id="L23">        System.out.println(this.undoRedoRecorder);</span>
+<span class="fc" id="L24">        this.blocks = new Block[32][13];</span>
+
+<span class="fc bfc" id="L26" title="All 2 branches covered.">        for (int i = 0; i &lt; 32; i++) {</span>
+<span class="fc bfc" id="L27" title="All 2 branches covered.">            for (int j = 0; j &lt; 13; j++) {</span>
+<span class="fc" id="L28">                this.blocks[i][j] = new Block(15 * i + 61, 20 * j + 76, blockImage);</span>
+            }
+        }
+<span class="fc" id="L31">    }</span>
+
+    /**
+     * @param fileName The name of the file containing the saved grid-state data.
+     * Sets the grid state based on the data in file.
+     */
+    public void loadGrid(String fileName) {
+        try {
+<span class="fc" id="L39">            Scanner scan = new Scanner(new File(fileName));</span>
+<span class="pc bpc" id="L40" title="1 of 2 branches missed.">            if (!scan.hasNextLine()) {</span>
+<span class="nc" id="L41">                return;</span>
+            }
+<span class="fc" id="L43">            scan.nextLine(); // skips instrument line and goes to line where grid state data is stored.</span>
+<span class="fc bfc" id="L44" title="All 2 branches covered.">            for (int i = 0; i &lt; 32; i++) {</span>
+<span class="fc" id="L45">                String[] QuaverblocksActiveStatus = scan.nextLine().split(&quot;&quot;, 13);</span>
+<span class="fc bfc" id="L46" title="All 2 branches covered.">                for (int j = 0; j &lt; 13; j++) {</span>
+<span class="fc bfc" id="L47" title="All 4 branches covered.">                    if ((QuaverblocksActiveStatus[j].equals(&quot;1&quot;) &amp;&amp; !this.blocks[i][j].isActive())</span>
+<span class="pc bpc" id="L48" title="1 of 4 branches missed.">                            || (QuaverblocksActiveStatus[j].equals(&quot;0&quot;) &amp;&amp; this.blocks[i][j].isActive())) {</span>
+<span class="fc" id="L49">                        this.blocks[i][j].toggleState();</span>
+                    }
+                }
+            }
+<span class="fc" id="L53">            scan.close();</span>
+<span class="nc" id="L54">        } catch (IOException e) {</span>
+<span class="fc" id="L55">        }</span>
+<span class="fc" id="L56">    }</span>
+
+    /**
+     * @param fileName The name of the file containing the saved grid-state data.
+     * @param line The line from which to consider the data from (indexed from 1).
+     * Sets the grid state based on the data in file.
+     */
+    public void loadGridFromLine(String fileName, int line) {
+        //imp: lines in file starting with 1.
+        try {
+<span class="fc" id="L66">            Scanner scan = new Scanner(new File(fileName));</span>
+<span class="fc bfc" id="L67" title="All 2 branches covered.">            for (int i = 0; i &lt; line - 1; i++) {</span>
+<span class="fc" id="L68">                scan.nextLine();</span>
+            }
+<span class="fc bfc" id="L70" title="All 2 branches covered.">            for (int i = 0; i &lt; 32; i++) {</span>
+<span class="fc" id="L71">                String[] QuaverblocksActiveStatus = scan.nextLine().split(&quot;&quot;, 13);</span>
+<span class="fc bfc" id="L72" title="All 2 branches covered.">                for (int j = 0; j &lt; 13; j++) {</span>
+<span class="fc bfc" id="L73" title="All 4 branches covered.">                    if ((QuaverblocksActiveStatus[j].equals(&quot;1&quot;) &amp;&amp; !this.blocks[i][j].isActive())</span>
+<span class="fc bfc" id="L74" title="All 4 branches covered.">                            || (QuaverblocksActiveStatus[j].equals(&quot;0&quot;) &amp;&amp; this.blocks[i][j].isActive())) {</span>
+<span class="fc" id="L75">                        this.blocks[i][j].toggleState();</span>
+                    }
+                }
+            }
+<span class="fc" id="L79">            scan.close();</span>
+<span class="nc" id="L80">        } catch (IOException e) {</span>
+<span class="fc" id="L81">        }</span>
+<span class="fc" id="L82">    }</span>
+
+    /**
+     * Resets save data.
+     */
+    public void resetUndoRedoSaveFile() {
+<span class="fc" id="L88">        this.curUndoRedoIndex = 0;</span>
+        try {
+<span class="fc" id="L90">            this.undoRedoRecorder = new FileWriter(undoRedoSaveFileName);</span>
+<span class="nc" id="L91">        } catch (IOException e) {</span>
+<span class="nc" id="L92">            e.printStackTrace();</span>
+<span class="fc" id="L93">        }</span>
+<span class="fc" id="L94">    }</span>
+
+    /**
+     * Records reset data to a file when a reset of the grid has occured.
+     */
+    public void recordReset() {
+        try {
+<span class="fc" id="L101">            undoRedoRecorder.write(&quot;RESET&quot;);</span>
+<span class="fc" id="L102">            undoRedoRecorder.write(this.generateStateInfo() + &quot;\n&quot;);</span>
+<span class="fc" id="L103">            undoRedoRecorder.flush();</span>
+<span class="fc" id="L104">            this.curUndoRedoIndex++;</span>
+<span class="nc" id="L105">        } catch (IOException e) {</span>
+<span class="nc" id="L106">            e.printStackTrace();</span>
+<span class="fc" id="L107">        }</span>
+<span class="fc" id="L108">    }</span>
+
+    /**
+     * Undos the last operation. Operations that can be undone include 
+     * toggling grid blocks, clearing grid blocks and loading in grid-states
+     * and instruments.
+     */
+    public void undo() {
+<span class="fc" id="L116">        int lineBeingScanned = 0;</span>
+        try {
+<span class="fc" id="L118">            Scanner scan = new Scanner(new File(undoRedoSaveFileName));</span>
+<span class="fc" id="L119">            String line = &quot;&quot;;</span>
+<span class="fc bfc" id="L120" title="All 2 branches covered.">            for (int i = 0; i &lt; this.curUndoRedoIndex; i++) {</span>
+<span class="pc bpc" id="L121" title="1 of 6 branches missed.">                if (line.equals(&quot;RESET&quot;) || line.equals(&quot;LOADFROM&quot;) || line.equals(&quot;LOADTO&quot;)) {</span>
+<span class="fc" id="L122">                    line = scan.nextLine();</span>
+<span class="fc" id="L123">                    lineBeingScanned++;</span>
+<span class="fc bfc" id="L124" title="All 2 branches covered.">                    while (line.split(&quot;&quot;).length &gt; 10) {</span>
+<span class="fc" id="L125">                         line = scan.nextLine();</span>
+<span class="fc" id="L126">                         lineBeingScanned++;</span>
+                     }
+                    continue;
+                }
+<span class="fc" id="L130">                line = scan.nextLine();</span>
+<span class="fc" id="L131">                lineBeingScanned++;</span>
+            }
+<span class="pc bpc" id="L133" title="1 of 2 branches missed.">            if (!line.equals(&quot;&quot;)) {</span>
+<span class="fc bfc" id="L134" title="All 2 branches covered.">                if (line.equals(&quot;RESET&quot;)) {</span>
+<span class="fc" id="L135">                    this.loadGridFromLine(this.undoRedoSaveFileName, lineBeingScanned + 1);</span>
+<span class="fc" id="L136">                    this.curUndoRedoIndex--;</span>
+<span class="fc bfc" id="L137" title="All 2 branches covered.">                } else if (line.equals(&quot;LOADFROM&quot;)) {</span>
+<span class="fc" id="L138">                    this.loadGridFromLine(this.undoRedoSaveFileName, lineBeingScanned + 1);</span>
+<span class="fc" id="L139">                    this.curUndoRedoIndex--;</span>
+<span class="pc bpc" id="L140" title="1 of 2 branches missed.">                } else if (line.equals(&quot;LOADTO&quot;)) {</span>
+<span class="nc" id="L141">                    this.loadGridFromLine(this.undoRedoSaveFileName, lineBeingScanned + 1);</span>
+<span class="nc" id="L142">                    this.curUndoRedoIndex--;</span>
+<span class="nc" id="L143">                    undo();</span>
+                } else {
+<span class="fc" id="L145">                    this.blocks[Integer.valueOf(line.split(&quot;,&quot;,2)[0])][Integer.valueOf(line.split(&quot;,&quot;,2)[1])].toggleState(); </span>
+<span class="fc" id="L146">                    this.curUndoRedoIndex--;</span>
+                }
+                
+            }
+<span class="fc" id="L150">            scan.close();</span>
+<span class="nc" id="L151">        } catch (FileNotFoundException e) {</span>
+<span class="nc" id="L152">            e.printStackTrace();</span>
+<span class="fc" id="L153">        }</span>
+<span class="fc" id="L154">    }</span>
+
+    /**
+     * Saves corresponding data when a load operation has occured.
+     * This is used for the undo and redo operations.
+     */
+    public void recordLoad() {
+        try {
+<span class="fc" id="L162">            this.undoRedoRecorder.write(&quot;LOADFROM&quot;);</span>
+<span class="fc" id="L163">            this.undoRedoRecorder.write(this.generateStateInfo() + &quot;\n&quot;);</span>
+<span class="fc" id="L164">            Scanner scanner = new Scanner(new File(&quot;src/save.txt&quot;));</span>
+<span class="fc" id="L165">            scanner.nextLine(); //skipping the line which saves the instrument.</span>
+<span class="fc" id="L166">            StringBuilder savedGridData = new StringBuilder();</span>
+<span class="fc bfc" id="L167" title="All 2 branches covered.">            while (scanner.hasNextLine()) {</span>
+<span class="fc" id="L168">                savedGridData.append(&quot;\n&quot;);</span>
+<span class="fc" id="L169">                savedGridData.append(scanner.nextLine());</span>
+            }
+<span class="fc" id="L171">            scanner.close();</span>
+<span class="fc" id="L172">            this.undoRedoRecorder.write(&quot;LOADTO&quot;);</span>
+<span class="fc" id="L173">            this.undoRedoRecorder.write(savedGridData.toString() + &quot;\n&quot;);</span>
+<span class="fc" id="L174">            undoRedoRecorder.flush();</span>
+<span class="fc" id="L175">            this.curUndoRedoIndex++;</span>
+<span class="nc" id="L176">        } catch (IOException e) {</span>
+<span class="nc" id="L177">            e.printStackTrace();</span>
+<span class="fc" id="L178">        }</span>
+<span class="fc" id="L179">    }</span>
+
+    /**
+     * Redos the last undo operation.
+     */
+    public void redo() {
+<span class="fc" id="L185">        int lineBeingScanned = 0;</span>
+        try {
+<span class="fc" id="L187">            Scanner scan = new Scanner(new File(undoRedoSaveFileName));</span>
+<span class="fc" id="L188">            String line = &quot;&quot;;</span>
+<span class="fc bfc" id="L189" title="All 2 branches covered.">            for (int i = 0; i &lt; this.curUndoRedoIndex; i++) {</span>
+<span class="pc bpc" id="L190" title="3 of 6 branches missed.">                if (line.equals(&quot;RESET&quot;) || line.equals(&quot;LOADFROM&quot;) || line.equals(&quot;LOADTO&quot;)) {</span>
+<span class="nc" id="L191">                    line = scan.nextLine();</span>
+<span class="nc" id="L192">                    lineBeingScanned++;</span>
+<span class="nc bnc" id="L193" title="All 4 branches missed.">                    while (line.split(&quot;&quot;).length &gt; 10 &amp;&amp; scan.hasNextLine()) {</span>
+<span class="nc" id="L194">                         line = scan.nextLine();</span>
+<span class="nc" id="L195">                         lineBeingScanned++;</span>
+                     }
+                    continue;
+                }
+<span class="fc" id="L199">                line = scan.nextLine();</span>
+<span class="fc" id="L200">                lineBeingScanned++;</span>
+            }
+<span class="pc bpc" id="L202" title="1 of 2 branches missed.">            if (scan.hasNextLine()) {</span>
+<span class="fc" id="L203">                line = scan.nextLine();</span>
+<span class="fc" id="L204">                lineBeingScanned++;</span>
+<span class="fc bfc" id="L205" title="All 2 branches covered.">                while (line.split(&quot;&quot;).length &gt; 10) {</span>
+<span class="pc bpc" id="L206" title="1 of 2 branches missed.">                    if (!scan.hasNextLine()) {</span>
+<span class="nc" id="L207">                        return;</span>
+                    }
+<span class="fc" id="L209">                    line = scan.nextLine();</span>
+<span class="fc" id="L210">                    lineBeingScanned++;</span>
+                }
+
+<span class="fc bfc" id="L213" title="All 2 branches covered.">                if (line.equals(&quot;RESET&quot;)) {</span>
+<span class="fc" id="L214">                    this.deactivateGridBlocks();</span>
+<span class="fc" id="L215">                    this.curUndoRedoIndex++;</span>
+<span class="fc bfc" id="L216" title="All 2 branches covered.">                } else if (line.equals(&quot;LOADTO&quot;)) {</span>
+<span class="fc" id="L217">                    this.loadGridFromLine(this.undoRedoSaveFileName, lineBeingScanned + 1);</span>
+<span class="fc" id="L218">                    this.curUndoRedoIndex++;</span>
+<span class="fc bfc" id="L219" title="All 2 branches covered.">                } else if (line.equals(&quot;LOADFROM&quot;)) {</span>
+<span class="fc" id="L220">                    curUndoRedoIndex++;</span>
+<span class="fc" id="L221">                    redo();</span>
+                } else {
+<span class="fc" id="L223">                    this.blocks[Integer.valueOf(line.split(&quot;,&quot;,2)[0])][Integer.valueOf(line.split(&quot;,&quot;,2)[1])].toggleState(); </span>
+<span class="fc" id="L224">                    this.curUndoRedoIndex++;</span>
+                }
+                
+            }
+<span class="fc" id="L228">            scan.close();</span>
+<span class="nc" id="L229">        } catch (FileNotFoundException e) {</span>
+<span class="nc" id="L230">            e.printStackTrace();</span>
+<span class="fc" id="L231">        }</span>
+<span class="fc" id="L232">    }</span>
+
+    /**
+     * Saves toggle data.
+     * @param gridX The number of blocks to the right.
+     * @param gridY The number of blocks down.
+     */
+    public void recordToggle(int gridX, int gridY) {
+        try {
+<span class="pc bpc" id="L241" title="1 of 2 branches missed.">            if (this.curUndoRedoIndex == 0) {</span>
+<span class="fc" id="L242">                resetUndoRedoSaveFile();</span>
+            }
+<span class="fc" id="L244">            this.undoRedoRecorder.write(String.valueOf(gridX) + &quot;,&quot; + String.valueOf(gridY) + &quot;\n&quot;);</span>
+<span class="fc" id="L245">            this.undoRedoRecorder.flush();</span>
+<span class="fc" id="L246">            this.curUndoRedoIndex++;</span>
+<span class="nc" id="L247">        } catch (IOException e) {</span>
+<span class="nc" id="L248">            e.printStackTrace();</span>
+<span class="fc" id="L249">        }</span>
+<span class="fc" id="L250">    }</span>
+
+    /**
+     * @return A string containing encoded information that describes the grid-state at the time of invocation.
+     */
+    public String generateStateInfo() {
+<span class="fc" id="L256">        StringBuilder stateInfo = new StringBuilder();</span>
+<span class="fc bfc" id="L257" title="All 2 branches covered.">        for (int i = 0; i &lt; 32; i++) {</span>
+<span class="fc" id="L258">            stateInfo.append(&quot;\n&quot;);</span>
+<span class="fc bfc" id="L259" title="All 2 branches covered.">            for (int j = 0; j &lt; 13; j++) {</span>
+<span class="fc bfc" id="L260" title="All 2 branches covered.">                if (this.blocks[i][j].isActive()) {</span>
+<span class="fc" id="L261">                    stateInfo.append(&quot;1&quot;);</span>
+                } else {
+<span class="fc" id="L263">                    stateInfo.append(&quot;0&quot;);</span>
+                }
+            } 
+        }
+<span class="fc" id="L267">        return stateInfo.toString();</span>
+    }
+
+    /**
+     * @return The Block objects stored in the grid.
+     */
+    public Block[][] getBlocks() {
+<span class="fc" id="L274">        return this.blocks;</span>
+    }
+
+    /**
+     * Draws the static grid and the active blocks on it.
+     */
+    public void draw(App app) {
+<span class="fc" id="L281">        app.image(this.image,60,75);</span>
+<span class="fc bfc" id="L282" title="All 2 branches covered.">        for (int i = 0; i &lt; this.blocks.length; i++) {</span>
+<span class="fc bfc" id="L283" title="All 2 branches covered.">            for (int j = 0; j &lt; blocks[i].length; j++) {</span>
+<span class="fc" id="L284">                blocks[i][j].draw(app);</span>
+            }
+        }
+<span class="fc" id="L287">    }</span>
+
+    /**
+     * Toggles the state of the block on which the mouse coordinates are positioned at the time of click.
+     */
+    @Override
+    public void click(App app) {
+<span class="fc" id="L294">        this.blocks[(app.mouseX-60)/15][(app.mouseY-75)/20].toggleState();</span>
+<span class="fc" id="L295">        this.recordToggle((app.mouseX-60)/15,(app.mouseY-75)/20);</span>
+<span class="fc" id="L296">    }</span>
+
+    /**
+     * Sets the state of all blocks to inactive.
+     */
+    public void deactivateGridBlocks() {
+<span class="fc bfc" id="L302" title="All 2 branches covered.">        for (int i = 0; i &lt; blocks.length; i++) {</span>
+<span class="fc bfc" id="L303" title="All 2 branches covered.">            for (int j = 0; j &lt; blocks[i].length; j++) {</span>
+<span class="fc" id="L304">                blocks[i][j].deactivate();</span>
+            }
+        }
+<span class="fc" id="L307">    }</span>
+
+    /**
+     * Sets the state of all blocks to active.
+     */
+    public void activateGridBlocks() {
+<span class="fc bfc" id="L313" title="All 2 branches covered.">        for (int i = 0; i &lt; blocks.length; i++) {</span>
+<span class="fc bfc" id="L314" title="All 2 branches covered.">            for (int j = 0; j &lt; blocks[i].length; j++) {</span>
+<span class="fc" id="L315">                blocks[i][j].activate();</span>
+            }
+        }
+<span class="fc" id="L318">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

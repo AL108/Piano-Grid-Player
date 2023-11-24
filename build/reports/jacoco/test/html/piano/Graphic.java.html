@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Graphic.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Forte</a> &gt; <a href="index.source.html" class="el_package">piano</a> &gt; <span class="el_source">Graphic.java</span></div><h1>Graphic.java</h1><pre class="source lang-java linenums">package piano;
+import processing.core.PImage;
+
+public class Graphic {
+    protected int coordX;
+    protected int coordY;
+    protected PImage image;
+    protected int height;
+    protected int width;
+    
+<span class="fc" id="L11">    public Graphic(int x, int y, PImage image) {</span>
+<span class="fc" id="L12">        this.coordX = x;</span>
+<span class="fc" id="L13">        this.coordY = y;</span>
+<span class="fc" id="L14">        this.image = image;</span>
+<span class="fc" id="L15">    }</span>
+
+    /** 
+     * @return Height of graphic.
+    */
+    public int getHeight() {
+<span class="fc" id="L21">        return this.height;</span>
+    }
+
+    /** 
+     * @return width of graphic
+    */
+    public int getWidth() {
+<span class="fc" id="L28">        return this.width;</span>
+    }
+
+    /** 
+     * @return X coordinate of graphic. 
+    */
+    public int getX() {
+<span class="fc" id="L35">        return this.coordX;</span>
+    }
+
+    /** 
+     * @return Y coordinate of graphic
+    */
+    public int getY() {
+<span class="fc" id="L42">        return this.coordY;</span>
+    }
+
+    /** 
+     * Some subclasses of Graphic may need to vary their characteristics on a regular basis,
+     * this method is for those classes to override. This method is invoked each time the draw() method 
+     * for the Graphic is invoked. 
+     * @param app The App object which has the GraphicsHandler object which stores the Graphic.
+    */
+<span class="fc" id="L51">    public void update(App app) {};</span>
+
+    
+    /** 
+     * Graphic Subclass-objects will implement this method if they represent 'clickable' graphics.
+     *  @param app The App object which has the GraphicsHandler object which stores the Graphic.
+    */
+<span class="nc" id="L58">    public void click(App app) {}</span>
+
+    /** 
+     * Updates and draws the graphic.
+     * @param app The App object which has the GraphicsHandler object which stores the Graphic.
+    */
+    public void draw(App app) {
+<span class="fc" id="L65">        this.update(app);</span>
+<span class="fc" id="L66">        app.image(this.image, this.coordX, this.coordY);</span>
+<span class="fc" id="L67">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="piano.GridTest" tests="12" skipped="0" failures="0" errors="0" timestamp="2020-05-29T11:57:13" hostname="DESKTOP-F7RLK9I" time="0.98">
+  <properties/>
+  <testcase name="redoToggleTest" classname="piano.GridTest" time="0.312"/>
+  <testcase name="loadInactiveGrid" classname="piano.GridTest" time="0.072"/>
+  <testcase name="undoToggleTest" classname="piano.GridTest" time="0.065"/>
+  <testcase name="loadActiveGrid" classname="piano.GridTest" time="0.049"/>
+  <testcase name="loadBtnClick" classname="piano.GridTest" time="0.087"/>
+  <testcase name="undoClear" classname="piano.GridTest" time="0.051"/>
+  <testcase name="redoLoad" classname="piano.GridTest" time="0.068"/>
+  <testcase name="mixedGridTest" classname="piano.GridTest" time="0.052"/>
+  <testcase name="undoLoad" classname="piano.GridTest" time="0.06"/>
+  <testcase name="loadFromLine" classname="piano.GridTest" time="0.059"/>
+  <testcase name="recordLoad" classname="piano.GridTest" time="0.061"/>
+  <testcase name="redoClear" classname="piano.GridTest" time="0.041"/>
+  <system-out><![CDATA[java.io.FileWriter@4a991a50
+java.io.FileWriter@7181185
+java.io.FileWriter@4f8e0efa
+java.io.FileWriter@712835d7
+java.io.FileWriter@7f3e7c2c
+java.io.FileWriter@5c9fa836
+java.io.FileWriter@4475d5a8
+java.io.FileWriter@74724ead
+java.io.FileWriter@1699ce5f
+java.io.FileWriter@495dcf4d
+java.io.FileWriter@1666355d
+java.io.FileWriter@3f93fdc2
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
